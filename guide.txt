@@ -1,0 +1,64 @@
+OSINT LAB - QUICK GUIDE
+=======================
+
+START
+  run.cmd, then open http://127.0.0.1:8080
+  (first time only: setup-python-tools.cmd, plus the PhoneInfoga binary - see README.md)
+
+BASIC USE
+  1. Type a target into the box. Its type is detected automatically
+     (or pick one from the "auto" dropdown).
+  2. The tools that fit that type appear as checkboxes. Sensible ones are
+     pre-ticked; "all" / "none" / "defaults" change the selection.
+  3. Click Run. Each tool fills its own section as it finishes.
+  4. "refresh" on a section re-runs just that tool (skips the cache).
+     "Export JSON" saves the whole report.
+  Recent searches are listed on the left - click one to load it again.
+
+WHAT TO ENTER                     TOOLS YOU GET
+  domain     example.com          DNS, WHOIS, subdomains, TLS, HTTP inspector, Wayback,
+                                  IP info, exposed services, network & blacklists,
+                                  theHarvester*, lookalike domains*, dorks
+  IP         8.8.8.8              WHOIS, IP info, exposed services (open ports + CVEs),
+                                  network & blacklists, TLS
+  URL        https://site.com/x   DNS, WHOIS, TLS, HTTP inspector, Wayback, reverse image
+  email      name@mail.com        Holehe (sites it's registered on), data breaches,
+                                  code platforms (which GitHub account uses it), Sherlock/
+                                  Maigret* (its username part), email analysis, social links, dorks
+  username   johndoe              Sherlock, Maigret*, profile details, code platforms,
+                                  data breaches, social links, Instagram*, Toutatis*, dorks
+  phone      +4915112345678       Phone lookup, PhoneInfoga, social links, dorks
+             (without + it is read as a number of the default region, DE)
+  company    Acme Corp            Company registries, employees (CrossLinked), dorks
+             (a one-word name reads as a username - pick "company" in the dropdown;
+              an LEI or EU VAT number like IE6388047V also works - pick "company")
+  file       [File] button        photo: metadata + GPS, photo geolocation*, reverse image
+             (max 1 GB)           video, PDF, Office: metadata (GPS, device, author, dates...)
+
+  * off by default - tick it yourself if you want it:
+      slow           Maigret (3-6 min), theHarvester (1-3 min), lookalike domains (~30 s),
+                     photo geolocation (~20 s)
+      needs a login  Instagram, Toutatis - an Instagram cookie, see INSTAGRAM TOOLS below
+
+WHERE WAS A PHOTO TAKEN?
+  Upload it with the File button and tick any of:
+    File Metadata      exact GPS, if the photo still has it (social media usually strips it)
+    Photo Geolocation  a guess from what's in the picture - region/country level, ~20 s
+    Reverse Image      opens Google Lens / Yandex / Bing / TinEye - drop the image in there
+
+INSTAGRAM TOOLS (Instagram Profile, Toutatis)
+  Need an Instagram login cookie. Log in to instagram.com in Firefox (best) with a
+  secondary account, then click "Load from browser" under the search box.
+  Or paste the cookie into secrets.properties (see secrets.properties.example).
+
+GOOD TO KNOW
+  - Results are cached for at least an hour - use "refresh" for fresh data.
+  - Slow tools: Maigret 3-6 min, theHarvester 1-3 min, Sherlock ~30 s.
+  - "busy" means too many tools are running - wait a moment and retry.
+  - Uploaded files are kept 30 minutes for re-runs ("refresh"), then deleted.
+  - Same username on two sites is not proof of the same person - Profile Details shows
+    names, dates and bios so you can compare.
+  - Code Platforms: GitHub allows ~7 lookups/hour without a token (see README).
+  - Link-only tools (social links, dorks, PhoneInfoga footprints, reverse image) don't
+    confirm anything - they give you ready-made searches to open by hand.
+  - Search engines sometimes bot-check automated queries; the tool will say so.

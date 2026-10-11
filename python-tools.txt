@@ -1,0 +1,15 @@
+# Python OSINT tools run by OSINT Lab as subprocesses.
+# Installed into ..\.tools\venv by setup-python-tools.cmd
+sherlock-project
+maigret
+holehe
+toutatis
+crosslinked
+dnstwist
+dnspython
+phonenumbers
+# Reads the user's own instagram.com sessionid from their browser (Load from browser button)
+browser-cookie3
+# Photo Geolocation (guesses where a photo was taken from its content). Pulls in torch (~large,
+# CPU build) and downloads ~1-2 GB of model weights on first use - see the warm-up in this script.
+geoclip

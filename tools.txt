@@ -1,0 +1,253 @@
+OSINT LAB - CANDIDATE TOOLS
+===========================
+Legend:  [N] native Java (built into the app)    [P] Python CLI (run via venv)
+         [G] Go / standalone binary              [W] web service / link-out
+         [K] needs API key or account session
+
+-------------------------------------------------------------------------------
+1. DOMAIN & DNS
+-------------------------------------------------------------------------------
+[N]    DNS records          A, AAAA, CNAME, MX, NS, TXT, SOA + reverse DNS (PTR)
+[N][W] WHOIS / RDAP         Domain, IP and ASN registration data (rdap.org)
+[N][W] Subdomains (CT)      Certificate Transparency logs via crt.sh
+[P]    theHarvester         Emails, subdomains, hosts from many public sources
+       https://github.com/laramies/theHarvester
+[P]    dnstwist             Typosquatting / lookalike / phishing domains
+       https://github.com/elceef/dnstwist
+[G]    subfinder            Passive subdomain discovery (ProjectDiscovery)
+       https://github.com/projectdiscovery/subfinder
+[G]    amass                In-depth attack surface mapping (OWASP)
+       https://github.com/owasp-amass/amass
+[P]    Sublist3r            Subdomain enumeration via search engines
+       https://github.com/aboul3la/Sublist3r
+[W][K] SecurityTrails       Historical DNS, subdomains
+[W][K] DNSDumpster          DNS recon & mapping
+
+-------------------------------------------------------------------------------
+2. WEB & INFRASTRUCTURE
+-------------------------------------------------------------------------------
+[N]    TLS certificate      Chain, validity, SANs, fingerprints, trust check
+[N]    HTTP inspector       Headers, redirect chain, security headers, tech
+                            fingerprinting, robots.txt, security.txt,
+                            emails & social links found on page
+[N][W] Wayback Machine      Snapshot timeline + archived URL list (archive.org)
+[G]    gau                  All known URLs (Wayback, Common Crawl, OTX, URLScan)
+       https://github.com/lc/gau
+[G]    waybackurls          Archived URLs for a domain
+       https://github.com/tomnomnom/waybackurls
+[P]    Photon               Crawler that extracts URLs, emails, files, secrets
+       https://github.com/s0md3v/Photon
+[G]    httpx                Fast HTTP probing / tech detection
+       https://github.com/projectdiscovery/httpx
+[W][K] URLScan.io           Page scans, screenshots, linked resources
+[W][K] BuiltWith            Technology profiling
+
+-------------------------------------------------------------------------------
+3. IP & NETWORK
+-------------------------------------------------------------------------------
+[N][W] IP intelligence      Geolocation, ISP, ASN, proxy/hosting flags (ip-api)
+[W][K] Shodan               Exposed services & banners
+[W][K] Censys               Hosts & certificates search
+[W][K] GreyNoise            Internet scanner / noise classification
+[W][K] AbuseIPDB            Abuse reports for IPs
+[W][K] VirusTotal           Reputation for IPs, domains, URLs, files
+[W][K] AlienVault OTX       Threat intel pulses
+
+-------------------------------------------------------------------------------
+4. USERNAMES & SOCIAL MEDIA
+-------------------------------------------------------------------------------
+[N][P] Sherlock             Username across 400+ sites (data.json reusable)
+       https://github.com/sherlock-project/sherlock
+[P]    Maigret              Sherlock fork, ~3000 sites, profile parsing
+       https://github.com/soxoj/maigret
+[P]    Blackbird            Username + email search, JSON output
+       https://github.com/p1ngul1n0/blackbird
+[P]    social-analyzer      Profile finding across 1000+ sites
+       https://github.com/qeeqbox/social-analyzer
+[P][K] Toutatis             Instagram account info (needs own sessionid)
+       https://pypi.org/project/toutatis/
+[P][K] SoIG                 Instagram OSINT (unmaintained - verify first)
+       https://github.com/yezz123/SoIG
+[P][K] Osintgram            Instagram analysis shell
+       https://github.com/Datalux/Osintgram
+[P]    snscrape             Scraper for several social networks (often broken)
+       https://github.com/JustAnotherArchivist/snscrape
+
+-------------------------------------------------------------------------------
+5. EMAIL & PHONE
+-------------------------------------------------------------------------------
+[N]    Email analysis       Syntax, MX, SPF, DMARC, provider, disposable check,
+                            Gravatar
+[P]    Holehe               Which sites an email is registered on (~120)
+       https://github.com/megadose/holehe
+[P][K] GHunt                Google account OSINT (needs own Google cookies)
+       https://github.com/mxrch/GHunt
+[P][K] h8mail               Breach / leak lookups
+       https://github.com/khast3x/h8mail
+[W][K] Have I Been Pwned    Breach exposure for email
+[W][K] Hunter.io            Email formats & addresses by domain
+[G]    PhoneInfoga          Phone number carrier, country, line type, dorks
+       https://github.com/sundowndev/phoneinfoga
+[P]    phonenumbers         Offline phone parsing / validation (libphonenumber)
+
+-------------------------------------------------------------------------------
+6. ORGANISATIONS & PEOPLE
+-------------------------------------------------------------------------------
+[P]    CrossLinked          LinkedIn employee names via search engines,
+                            generates email formats
+       https://github.com/m8sec/CrossLinked
+[W]    OpenCorporates       Company registry data
+[W]    Handelsregister      German company register
+[W]    GLEIF                LEI lookup (legal entities)   << BUILT
+
+-------------------------------------------------------------------------------
+7. FILES, IMAGES & METADATA
+-------------------------------------------------------------------------------
+[N]    EXIF / metadata      EXIF, XMP, IPTC, GPS -> map, file hashes
+                            (metadata-extractor)
+[G]    ExifTool             Most complete metadata reader/writer   << BUILT
+       https://exiftool.org
+[W]    Reverse image search Google Lens, Bing, Yandex, TinEye link-outs
+[W]    FotoForensics        Error level analysis
+[P]    metagoofil           Finds public documents of a domain, extracts metadata
+       https://github.com/opsdisk/metagoofil
+
+-------------------------------------------------------------------------------
+8. SEARCH & DORKING
+-------------------------------------------------------------------------------
+[N]    Dork generator       Google/Bing/DDG dorks for a domain or keyword
+[P]    GooFuzz              Dork-based file/path discovery
+       https://github.com/m3n0sd0n4ld/GooFuzz
+[W]    Google Cache / Archive.today
+
+-------------------------------------------------------------------------------
+9. GEO
+-------------------------------------------------------------------------------
+[W]    OpenStreetMap / Overpass  Map & feature queries
+[W]    SunCalc             Shadow / sun position for photo geolocation
+[W]    Sentinel Hub        Satellite imagery
+
+-------------------------------------------------------------------------------
+10. CRYPTO / BLOCKCHAIN
+-------------------------------------------------------------------------------
+[W]    Blockchain explorers (BTC, ETH) - address & transaction lookup
+[W][K] Etherscan API
+
+-------------------------------------------------------------------------------
+11. FRAMEWORKS (run alongside, or borrow ideas)
+-------------------------------------------------------------------------------
+[P]    SpiderFoot           ~200 modules, own web UI + API
+       https://github.com/smicallef/spiderfoot
+[P]    recon-ng             Modular recon framework
+       https://github.com/lanmaster53/recon-ng
+[W]    OSINT Framework      Curated link directory - https://osintframework.com
+
+-------------------------------------------------------------------------------
+12. NEW CANDIDATES - researched and live-tested Oct 2026 (all free; [K] = key)
+    "<< BUILT" = now part of the app
+-------------------------------------------------------------------------------
+IP & NETWORK
+[W]    Shodan InternetDB    Open ports, CPEs, CVEs per IP from Shodan's own scans   << BUILT
+       internetdb.shodan.io/{ip} + cvedb.shodan.io (CVE details)    keyless
+[W]    RIPEstat Data API    ASN/prefix, abuse contact, RPKI, routing history   << BUILT
+       stat.ripe.net/data/<call>/data.json                         keyless
+[N]    DNSBL + Team Cymru   Blacklist status & IP->ASN via plain DNS queries   << BUILT
+                            (Spamhaus refuses public resolvers - use system DNS)
+[W]    Passive DNS          DNS history: api.mnemonic.no/pdns/v3, Robtex
+                            freeapi (low anonymous quotas)
+[W]    urlscan.io search    Historical public scans by domain:/ip: - keyless
+                            for search (submitting scans needs a key)
+[W]    Threat feeds         URLhaus + ThreatFox bulk exports, OpenPhish, Tor exit
+                            list - download, cache, match locally (keyless)
+[W]    More subdomains      subdomain.center, anubisdb.com, HackerTarget
+                            hostsearch/reverseiplookup (~50/day)
+[P]    checkdmarc           SPF/DMARC/BIMI/MTA-STS/DNSSEC with warnings
+       https://github.com/domainaware/checkdmarc
+[G]    cdncheck             Is this IP a CDN/cloud/WAF? (avoid misattribution)
+       https://github.com/projectdiscovery/cdncheck
+[G]    wappalyzergo         ~3k current tech fingerprints for the HTTP inspector
+       https://github.com/projectdiscovery/wappalyzergo
+
+PEOPLE & ACCOUNTS
+[W]    Code platforms       GitHub/GitLab/Codeberg: profile, orgs, SSH/GPG keys,   << BUILT
+                            commit author emails (.patch), email->user via
+                            commit search. GitHub keyless = 60 req/h ([K] token
+                            optional). Filter spoofed commit emails.
+[W]    Breach exposure      XposedOrNot (email/domain -> breach names, risk) +   << BUILT
+                            LeakCheck public API - breach NAMES only, keyless
+[P]    user-scanner         Maintained Holehe successor: ~210 email modules,
+                            ~2500 username sites, profile metadata, JSON
+       https://github.com/kaifcodec/user-scanner
+[W]    Bluesky + PLC        Profile, DID, createdAt, handle history, PDS host   << BUILT
+[W]    Keybase              Verified linked accounts + reverse lookup by   << BUILT
+                            github/twitter/reddit/hackernews/domain
+[W]    PGP key servers      keyserver.ubuntu.com (all UIDs), keys.openpgp.org,
+                            Proton key server (address exists + key date),
+                            Keyoxide identity proofs
+[W]    Arctic Shift         Reddit history (Reddit's own JSON is now 403)   << BUILT
+[W]    Community profiles   HN, Lichess, Chess.com, Mastodon (WebFinger),   << BUILT
+                            (built: all except TikTok, Twitch, Duolingo)
+                            Telegram t.me, Steam ?xml=1, TikTok page, Twitch,
+                            Duolingo (also reverse email lookup - gray area)
+[W]    Gravatar v3          api.gravatar.com/v3/profiles - richer than current
+GRAY AREA (opt-in only, think twice):
+[W]    Hudson Rock Cavalier Infostealer-log exposure - DROP top_passwords /
+                            top_logins fields before display
+[P]    phonsint             Phone -> registered accounts via recovery flows;
+                            never use --allow-loud
+       https://github.com/kaifcodec/phonsint
+
+FILES, IMAGES & GEO
+[G]    ExifTool             Video/PDF/Office metadata, embedded thumbnails ->   << BUILT
+                            enables a generic FILE upload type (exiftool -j)
+[G]    c2patool             C2PA Content Credentials: AI-generated? edit history
+       https://github.com/contentauth/c2pa-rs
+[N]    Image forensics      ELA, dHash/pHash, thumbnail mismatch, ZXing QR
+                            decode, optional Tesseract OCR for signs
+[W][N] Coordinates context  Photon/Nominatim reverse geocode (1 req/s), Overpass
+                            POIs nearby, Open-Meteo historical weather +
+                            elevation, commons-suncalc (Java) sun position
+
+COMPANIES, MONEY & SANCTIONS
+[W]    GLEIF                LEI + Level 2 parent/child ownership - keyless   << BUILT
+[W]    SEC EDGAR            Filings + full-text search (UA must carry an email)   << BUILT
+[W]    EU VIES              VAT number -> registered name/address   << BUILT
+[W]    Wikidata             Entity cross-IDs (LEI, registry numbers, websites)
+[W]    National registries  France recherche-entreprises, Norway Brreg (keyless)
+[W]    OpenSanctions bulk   Sanctions + PEP lists, daily CSV (CC BY-NC)
+[W]    ICIJ Offshore Leaks  Panama/Pandora Papers entity matching (reconcile API)
+[W]    Crypto addresses     BTC: mempool.space/Esplora + WalletExplorer clusters;
+                            ETH: Blockscout + publicnode RPC; TRON: TronGrid;
+                            OFAC sanctioned-address lists (0xB10C, GitHub)
+[P]    schwifty / stdnum    Offline IBAN/BIC/VAT/ID validation
+
+TRANSPORT
+[W]    Aircraft             adsbdb + hexdb (hex/registration/callsign -> type,
+                            operator, route), Planespotters photos, adsb.lol
+                            live + military tracks (ODbL)
+[W]    NHTSA vPIC           VIN decode (full for US, maker only for EU VINs)
+       Ships / AIS          no free keyless source found (aisstream [K])
+
+STATUS CHANGES (Oct 2026)
+- OpenCorporates  API now needs a token
+- Etherscan       needs a key - use Blockscout instead
+- Blockchair      blacklists keyless callers
+- OTX             passive_dns needs a key; general + url_list still keyless
+- GreyNoise       community endpoint keyless (low quota)
+- abuse.ch APIs   need a free Auth-Key - bulk feeds still keyless
+- BGPView, ThreatMiner, PhishTank feed, columbus.elmasy - dead
+- Reddit JSON     403 for anonymous clients
+- Holehe          last update Sep 2024 - see user-scanner
+- Blackbird       moved to antoniaci/blackbird, quiet since Jul 2025
+- h8mail          stale since 2023, mostly paid backends
+- Mailcat         rejected: probes mailboxes over SMTP (not passive)
+
+-------------------------------------------------------------------------------
+DELIBERATELY OUT OF SCOPE (active / intrusive, not passive OSINT)
+-------------------------------------------------------------------------------
+- Port scanning (nmap, masscan)
+- SMTP mailbox probing (RCPT TO verification)
+- Brute-force directory / login enumeration
+
+NOTE: Instagram/LinkedIn scraping violates their ToS; personal data falls under
+GDPR. Use for own investigations, CTFs or authorised engagements only.

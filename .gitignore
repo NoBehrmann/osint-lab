@@ -1,0 +1,24 @@
+# Build output
+target/
+
+# Local secrets - copy secrets.properties.example to secrets.properties (never commit the real one)
+secrets.properties
+
+# Runtime scratch (Tomcat basedir etc. if created inside the project)
+.tmp/
+
+# The portable toolchain and caches live OUTSIDE this repo (a sibling ../.tools, ../.m2, ../.tmp)
+# and are never committed. Listed here in case anyone creates them inside the project by mistake.
+.tools/
+.m2/
+
+# IDE / editor
+.idea/
+*.iml
+.vscode/
+*.code-workspace
+
+# OS
+Thumbs.db
+Desktop.ini
+.DS_Store
