@@ -29,7 +29,7 @@ public class PhoneNumbers {
         return defaultRegion;
     }
 
-    /** @param phone output of {@link Inputs#phone} - digits with an optional leading '+' */
+    /** @param phone output of {@link Inputs#phone}: digits with an optional leading '+' */
     public Optional<String> e164(String phone) throws Exception {
         if (phone.startsWith("+")) return Optional.of(phone);
         try {

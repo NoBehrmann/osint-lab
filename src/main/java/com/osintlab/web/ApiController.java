@@ -68,7 +68,7 @@ public class ApiController {
 
     /**
      * Stores an uploaded file once (streamed to disk, never held in memory) so every selected file
-     * tool can analyse it via {@link #runFile}. Uploads expire after a while - see {@link UploadStore}.
+     * tool can analyse it via {@link #runFile}. Uploads expire after a while, see {@link UploadStore}.
      */
     @PostMapping(value = "/files", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public Map<String, Object> upload(@RequestParam("file") MultipartFile file) throws Exception {
@@ -105,7 +105,7 @@ public class ApiController {
 
     /**
      * Reads the instagram.com sessionid from the user's own browser (scripts/ig_cookie.py) and
-     * keeps it in server memory. The token itself is never returned to the browser - only whether
+     * keeps it in server memory. The token itself is never returned to the browser, only whether
      * it loaded and from which browser.
      */
     @PostMapping("/instagram/load-session")

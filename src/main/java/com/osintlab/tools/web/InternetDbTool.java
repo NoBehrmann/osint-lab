@@ -68,11 +68,11 @@ public class InternetDbTool implements OsintTool {
             Map<String, Object> host = new LinkedHashMap<>();
             host.put("ip", ip);
             if (!Inputs.isPublicIp(ip)) {
-                host.put("note", "private or reserved address - not reachable from the internet, so Shodan has no data");
+                host.put("note", "private or reserved address, not reachable from the internet, so Shodan has no data");
             } else {
                 JsonNode db = http.getJsonOrNull("https://internetdb.shodan.io/" + ip, Duration.ofSeconds(15));
                 if (db == null) {
-                    host.put("note", "Shodan has no data for this IP - nothing exposed when it last scanned, or never scanned");
+                    host.put("note", "Shodan has no data for this IP: nothing exposed when it last scanned, or never scanned");
                 } else {
                     host.put("ports", texts(db.path("ports")));
                     host.put("hostnames", texts(db.path("hostnames")));
@@ -90,11 +90,11 @@ public class InternetDbTool implements OsintTool {
         if (!cves.isEmpty()) {
             out.put("vulnerabilities", cveDetails(cves));
             if (cves.size() > MAX_CVE_DETAILS) {
-                out.put("vulnerabilitiesNote", "Details for " + MAX_CVE_DETAILS + " of " + cves.size() + " CVEs - Shodan "
+                out.put("vulnerabilitiesNote", "Details for " + MAX_CVE_DETAILS + " of " + cves.size() + " CVEs. Shodan "
                         + "lists them in no particular order, so the most severe may be among the rest (see the Shodan link)");
             }
         }
-        out.put("note", "From Shodan's own scans - nothing is sent to the target. Data can be weeks old, and CVEs are "
+        out.put("note", "From Shodan's own scans, nothing is sent to the target. Data can be weeks old, and CVEs are "
                 + "inferred from version banners, so they can be false positives (e.g. patched backports).");
         return out;
     }

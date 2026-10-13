@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Direct links into the big platforms (Facebook, Instagram, X, TikTok, LinkedIn...). These sites
  * answer automated checks with login walls or identical pages for existing and non-existing
- * accounts, so no tool can verify them reliably - the links let you check by hand in one click.
+ * accounts, so no tool can verify them reliably. The links let you check by hand in one click.
  * Makes no requests itself.
  */
 @Component

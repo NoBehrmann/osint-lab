@@ -7,7 +7,7 @@ import java.time.Duration;
  * {@link ToolRegistry} becomes "ready" automatically.
  *
  * <p>Implementations must validate {@code target} themselves (see {@code Inputs}) and throw
- * {@link IllegalArgumentException} for bad input - never pass unchecked input to an external
+ * {@link IllegalArgumentException} for bad input. Never pass unchecked input to an external
  * process or service.
  */
 public interface OsintTool {

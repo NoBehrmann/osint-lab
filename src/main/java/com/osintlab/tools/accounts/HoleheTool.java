@@ -50,7 +50,7 @@ public class HoleheTool implements OsintTool {
     @Override
     public Object run(String target) throws Exception {
         String email = Inputs.email(target);
-        // Note: don't pass -T - holehe forwards it to httpx as a string, which makes every check fail.
+        // Note: don't pass -T. Holehe forwards it to httpx as a string, which makes every check fail.
         List<String> command = List.of(python.executable("holehe"),
                 "--no-color", "--no-clear", "-NP", "-C", "--", email);
         return runner.run(command, Duration.ofMinutes(3), r -> parse(email, r));
@@ -91,7 +91,7 @@ public class HoleheTool implements OsintTool {
         out.put("accounts", registered);
         out.put("notRegistered", notRegistered.size());
         out.put("couldNotCheck", couldNotCheck);
-        out.put("note", "Sites in 'couldNotCheck' blocked the check or changed their signup flow - "
+        out.put("note", "Sites in 'couldNotCheck' blocked the check or changed their signup flow, so "
                 + "their result is unknown, not negative.");
         return out;
     }

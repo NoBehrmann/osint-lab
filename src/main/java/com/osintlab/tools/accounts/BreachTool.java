@@ -20,8 +20,8 @@ import java.util.concurrent.Callable;
 
 /**
  * Which known data breaches an email address (or username) appears in, from two free keyless
- * services: XposedOrNot (email - breach names, dates, exposed data types, risk score) and the
- * LeakCheck public API (email or username - source names and dates). Only breach NAMES and data
+ * services: XposedOrNot (email: breach names, dates, exposed data types, risk score) and the
+ * LeakCheck public API (email or username: source names and dates). Only breach NAMES and data
  * types are shown, never the leaked data itself.
  */
 @Component
@@ -40,7 +40,7 @@ public class BreachTool implements OsintTool {
 
     @Override
     public int maxConcurrent() {
-        return 2; // free community services - be gentle
+        return 2; // free community services, be gentle
     }
 
     @Override
@@ -65,7 +65,7 @@ public class BreachTool implements OsintTool {
         out.put("summary", summary(sources));
         sources.forEach(out::put);
         if (!email) out.put("XposedOrNot", "email addresses only");
-        out.put("note", "Only breach names and the TYPES of data exposed are shown - no passwords or leaked records. "
+        out.put("note", "Only breach names and the TYPES of data exposed are shown, no passwords or leaked records. "
                 + "A hit means the value appears in that breach's data, not that an account is still compromised."
                 + (email ? "" : " A username match can be a different person who uses the same name."));
         return out;

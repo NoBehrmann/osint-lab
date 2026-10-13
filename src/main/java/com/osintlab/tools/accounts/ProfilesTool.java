@@ -21,11 +21,11 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Real profile DATA for a username - join dates, bios, linked accounts, activity - from sites with
+ * Real profile DATA for a username (join dates, bios, linked accounts, activity) from sites with
  * free public APIs: Bluesky (+ handle history), Keybase (cryptographically verified linked accounts),
  * Reddit (via the Arctic Shift archive), Hacker News, Mastodon (mastodon.social), Lichess, Chess.com,
  * Steam and Telegram. Sherlock/Maigret say WHERE a username exists; this says WHO is behind it.
- * Same username on two sites doesn't prove the same person - compare the details.
+ * Same username on two sites doesn't prove the same person, so compare the details.
  */
 @Component
 public class ProfilesTool implements OsintTool {
@@ -85,7 +85,7 @@ public class ProfilesTool implements OsintTool {
         out.putAll(profiles);
         if (!notFound.isEmpty()) out.put("notFound", String.join(", ", notFound));
         if (!errors.isEmpty()) out.put("unavailable", errors);
-        out.put("note", "The same username on two sites doesn't prove it's the same person - compare names, "
+        out.put("note", "The same username on two sites doesn't prove it's the same person. Compare names, "
                 + "dates, bios and linked accounts.");
         return out;
     }
@@ -108,7 +108,7 @@ public class ProfilesTool implements OsintTool {
         if (did.startsWith("did:plc:")) {
             JsonNode log = http.getJsonOrNull("https://plc.directory/" + did + "/log/audit", TIMEOUT);
             if (log != null) {
-                // every handle the account has used, oldest first - renamed accounts keep their history here
+                // every handle the account has used, oldest first. Renamed accounts keep their history here
                 Set<String> handles = new LinkedHashSet<>();
                 String pds = null;
                 for (JsonNode op : log) {
@@ -176,12 +176,12 @@ public class ProfilesTool implements OsintTool {
             if (!rows.isEmpty()) out.put("topSubreddits", String.join(", ", rows));
         }
         if (out.isEmpty()) {
-            // all lookups failed rather than "no activity" - report it instead of "not found"
+            // all lookups failed rather than "no activity", so report it instead of "not found"
             if (r.values().stream().allMatch(Parallel::failed)) return Map.of("error", "Arctic Shift archive unavailable");
             return null;
         }
         out.put("url", "https://www.reddit.com/user/" + u);
-        out.put("source", "Arctic Shift archive - includes since-deleted content, may lag a few days");
+        out.put("source", "Arctic Shift archive. Includes since-deleted content, may lag a few days");
         return out;
     }
 
@@ -192,7 +192,7 @@ public class ProfilesTool implements OsintTool {
     }
 
     private Object hackerNews(String u) throws Exception {
-        if (u.contains(".")) return null; // not a valid HN name - and a '.' makes the Firebase API return 400
+        if (u.contains(".")) return null; // not a valid HN name, and a '.' makes the Firebase API return 400
         JsonNode p = http.getJsonOrNull("https://hacker-news.firebaseio.com/v0/user/" + u + ".json", TIMEOUT);
         if (p == null || p.isNull()) return null;
         Map<String, Object> out = new LinkedHashMap<>();
@@ -265,7 +265,7 @@ public class ProfilesTool implements OsintTool {
         return out;
     }
 
-    /** Steam "custom URL" profiles (steamcommunity.com/id/NAME). Parsed with regexes - no XML parser. */
+    /** Steam "custom URL" profiles (steamcommunity.com/id/NAME). Parsed with regexes, no XML parser. */
     private Object steam(String u) throws Exception {
         HttpSupport.Fetched f = http.get(URI.create("https://steamcommunity.com/id/" + u + "?xml=1"), TIMEOUT,
                 "text/xml", 500_000, true);

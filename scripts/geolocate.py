@@ -1,7 +1,7 @@
 """Estimate where a photo was taken from its visual content (not metadata), using GeoCLIP.
 
 GeoCLIP matches the image against a large gallery of GPS locations and returns the most likely
-coordinates. It reasons from visible cues - architecture, vegetation, signage, road markings - so it
+coordinates. It reasons from visible cues (architecture, vegetation, signage, road markings), so it
 works even when EXIF GPS has been stripped. Accuracy is coarse (often region/country level) and it is
 only a guess; always corroborate with the other tools.
 
@@ -21,8 +21,8 @@ def main():
 
     try:
         from geoclip import GeoCLIP
-    except Exception as e:  # noqa: BLE001 - report any import problem to the caller as JSON
-        print(json.dumps({"error": f"geoclip not installed - run setup-python-tools.cmd ({e})"}))
+    except Exception as e:  # noqa: BLE001  (report any import problem to the caller as JSON)
+        print(json.dumps({"error": f"geoclip is not installed, run setup-python-tools.cmd ({e})"}))
         return
 
     try:

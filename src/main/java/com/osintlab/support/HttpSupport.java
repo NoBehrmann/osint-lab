@@ -78,7 +78,7 @@ public class HttpSupport {
     }
 
     /**
-     * JSON GET that returns null for any of {@code missing} - the status codes the service uses for
+     * JSON GET that returns null for any of {@code missing}, the status codes the service uses for
      * "no such record" (404 for most, 400 for some). Other errors throw {@link UpstreamException}.
      */
     public JsonNode getJsonOrNull(String url, Duration timeout, Map<String, String> headers, Set<Integer> missing)
@@ -87,7 +87,7 @@ public class HttpSupport {
         Fetched f = get(URI.create(url), timeout, "application/json", 20_000_000, true, headers);
         if (missing.contains(f.status())) return null;
         if (f.status() == 429 || (f.status() == 403 && f.body().toLowerCase().contains("rate limit"))) {
-            throw new UpstreamException(host + " rate limit reached - try again later");
+            throw new UpstreamException(host + " rate limit reached, try again later");
         }
         if (f.status() >= 400) throw new UpstreamException(host + " returned HTTP " + f.status());
         try {
@@ -102,7 +102,7 @@ public class HttpSupport {
         String host = URI.create(url).getHost();
         Fetched f = get(URI.create(url), timeout, accept, maxBytes, true);
         if (f.status() == 404) throw new UpstreamException("No record found (HTTP 404 from " + host + ")");
-        if (f.status() == 429) throw new UpstreamException(host + " is rate-limiting requests - try again later");
+        if (f.status() == 429) throw new UpstreamException(host + " is rate-limiting requests, try again later");
         if (f.status() >= 400) throw new UpstreamException(host + " returned HTTP " + f.status());
         try {
             return mapper.readTree(f.body());

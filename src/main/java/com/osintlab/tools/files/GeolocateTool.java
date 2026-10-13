@@ -16,12 +16,12 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Guesses where a photo was taken from its <em>visual content</em> - architecture, vegetation,
- * signage, road markings - using GeoCLIP (scripts/geolocate.py). Unlike the EXIF tool this needs no
+ * Guesses where a photo was taken from its <em>visual content</em> (architecture, vegetation,
+ * signage, road markings) using GeoCLIP (scripts/geolocate.py). Unlike the EXIF tool this needs no
  * GPS metadata, so it still works on stripped social-media images. The estimate is coarse (often
  * region/country level) and is only a guess; corroborate it with EXIF GPS and reverse image search.
  *
- * <p>The model runs locally in the Python venv - nothing leaves the machine. The weights (~1-2 GB)
+ * <p>The model runs locally in the Python venv, nothing leaves the machine. The weights (~1-2 GB)
  * download once into the configured cache; run the warm-up in setup-python-tools.cmd so the first
  * real lookup is not gated on that download.
  */
@@ -43,12 +43,12 @@ public class GeolocateTool implements FileTool {
 
     @Override
     public int maxConcurrent() {
-        return 1; // CPU-heavy model inference - run one at a time
+        return 1; // CPU-heavy model inference, run one at a time
     }
 
     @Override
     public Object runFile(UploadStore.Upload file) throws Exception {
-        // Keep every torch/HF cache under ..\.tools on F: with fixed names. Without an explicit
+        // Keep every torch/HF cache under ..\.tools with fixed names. Without an explicit
         // TORCHINDUCTOR_CACHE_DIR, torch writes a "torchinductor_<username>" folder into TEMP.
         Path inductor = Files.createDirectories(hfCache.resolve("inductor"));
         Map<String, String> env = Map.of(
@@ -78,7 +78,8 @@ public class GeolocateTool implements FileTool {
         Map<String, Object> out = new LinkedHashMap<>();
         if (!rows.isEmpty()) out.put("bestGuess", rows.get(0));
         out.put("predictions", rows);
-        out.put("note", "Guessed from image content, not GPS metadata - treat as a lead, not proof. Accuracy is "
+        out.put("note", "Guessed from image content, not GPS metadata. Treat it as a lead, not proof. Accuracy is "
                 + "often only region/country level. Cross-check with EXIF GPS and reverse image search.");
         return out;
-    }}
+    }
+}

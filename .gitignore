@@ -1,7 +1,7 @@
 # Build output
 target/
 
-# Local secrets - copy secrets.properties.example to secrets.properties (never commit the real one)
+# Local secrets. Copy secrets.properties.example to secrets.properties (never commit the real one)
 secrets.properties
 
 # Runtime scratch (Tomcat basedir etc. if created inside the project)

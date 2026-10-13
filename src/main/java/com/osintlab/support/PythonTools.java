@@ -40,7 +40,7 @@ public class PythonTools {
     public String executable(String name) {
         Path exe = WINDOWS ? venv.resolve("Scripts").resolve(name + ".exe") : venv.resolve("bin").resolve(name);
         if (!Files.isRegularFile(exe)) {
-            throw new ToolUnavailableException(name + " is not installed - run setup-python-tools.cmd");
+            throw new ToolUnavailableException(name + " is not installed, run setup-python-tools.cmd");
         }
         return exe.toString();
     }

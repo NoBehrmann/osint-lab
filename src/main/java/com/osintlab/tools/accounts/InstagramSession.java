@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 /**
  * The user's own Instagram "sessionid" cookie. Instagram rate-limits anonymous API access, so the
  * Instagram tools need it. It can come from secrets.properties or be loaded at runtime from the
- * user's browser ("Load from browser"). The token stays in server memory - it is never sent back
+ * user's browser ("Load from browser"). The token stays in server memory and is never sent back
  * to the frontend.
  */
 @Component
@@ -40,7 +40,7 @@ public class InstagramSession {
     public String require() {
         String s = active();
         if (s == null) {
-            throw new ToolUnavailableException("No Instagram sessionid set - click \"Load from browser\", or log in "
+            throw new ToolUnavailableException("No Instagram sessionid set. Click \"Load from browser\", or log in "
                     + "to instagram.com, copy the 'sessionid' cookie into osint-lab/secrets.properties and restart. "
                     + "Use a secondary account: Instagram may flag accounts used for lookups.");
         }

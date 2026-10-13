@@ -20,7 +20,7 @@ public final class Csv {
         List<String> lines = Files.readAllLines(file, StandardCharsets.UTF_8);
         List<Map<String, String>> rows = new ArrayList<>();
         if (lines.isEmpty()) return rows;
-        List<String> header = parseLine(lines.getFirst().replace("﻿", ""));
+        List<String> header = parseLine(lines.getFirst().replace("\uFEFF", "")); // strip a UTF-8 BOM
         for (String line : lines.subList(1, lines.size())) {
             if (line.isBlank()) continue;
             List<String> fields = parseLine(line);

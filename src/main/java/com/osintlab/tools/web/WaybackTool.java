@@ -57,7 +57,7 @@ public class WaybackTool implements OsintTool {
         String host = uri.getHost().toLowerCase();
         String key = wholeDomain ? host : host + uri.getRawPath();
 
-        // both CDX queries run in parallel - archive.org is slow
+        // both CDX queries run in parallel, archive.org is slow
         CompletableFuture<JsonNode> urlsQuery = wholeDomain
                 ? CompletableFuture.supplyAsync(() -> cdx("?url=" + enc(host) + "&matchType=domain&output=json"
                 + "&fl=original&collapse=urlkey&filter=statuscode:200&limit=500"), r -> Thread.ofVirtual().start(r))

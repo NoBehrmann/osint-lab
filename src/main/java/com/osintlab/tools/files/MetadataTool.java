@@ -40,12 +40,12 @@ import java.util.regex.Pattern;
  *       documents (author, company, software, edit time, revision) and ~400 other formats.</li>
  *   <li>Without it: images (and basic MP4/MOV) via the built-in metadata-extractor library.</li>
  * </ul>
- * The file is streamed from disk - large videos never sit in memory.
+ * The file is streamed from disk, so large videos never sit in memory.
  */
 @Component
 public class MetadataTool implements FileTool {
 
-    /** Tags surfaced at the top, in this order - they often identify a device, person, place or time. */
+    /** Tags surfaced at the top, in this order. They often identify a device, person, place or time. */
     private static final List<String> HIGHLIGHTS = List.of(
             "FileType", "MIMEType", "ImageSize", "Duration", "VideoFrameRate",
             "Make", "Model", "LensModel", "SerialNumber", "BodySerialNumber", "InternalSerialNumber", "LensSerialNumber",
@@ -56,7 +56,7 @@ public class MetadataTool implements FileTool {
             "DateTimeOriginal", "CreationDate", "CreateDate", "MediaCreateDate", "ModifyDate",
             "HistorySoftwareAgent", "HistoryWhen", "OffsetTimeOriginal", "Rotation");
 
-    /** QuickTime dates are stored in UTC by the spec - worth saying so next to the value. */
+    /** QuickTime dates are stored in UTC by the spec, worth saying so next to the value. */
     private static final Set<String> UTC_DATES = Set.of("CreateDate", "ModifyDate", "MediaCreateDate", "TrackCreateDate");
     private static final Set<String> VIDEO_TYPES = Set.of("MP4", "MOV", "M4V", "3GP", "3G2", "MTS", "M2TS", "AVI",
             "INSV", "LRV", "360", "MKV", "WEBM", "WMV");
@@ -91,7 +91,7 @@ public class MetadataTool implements FileTool {
         if (Files.isRegularFile(exiftool)) {
             withExifTool(file.path(), out);
         } else {
-            out.put("reader", "built-in (images only) - install ExifTool for video, PDF and Office metadata, see README");
+            out.put("reader", "built-in (images only). Install ExifTool for video, PDF and Office metadata, see README");
             withMetadataExtractor(file.path(), out);
         }
         return out;
@@ -176,7 +176,7 @@ public class MetadataTool implements FileTool {
 
     /**
      * Timed GPS samples embedded in the video stream (dashcams, drones, GoPro/Insta360, some phones).
-     * Needs -ee, which reads the whole file - seconds to tens of seconds for large videos.
+     * Needs -ee, which reads the whole file: seconds to tens of seconds for large videos.
      */
     private Object gpsTrack(Path path) throws Exception {
         List<String> cmd = List.of(exiftool.toString(), "-ee", "-j", "-n", "-G3", "-api", "LargeFileSupport=1",
@@ -232,7 +232,7 @@ public class MetadataTool implements FileTool {
         try {
             metadata = ImageMetadataReader.readMetadata(path.toFile());
         } catch (ImageProcessingException e) {
-            out.put("metadata", "Unsupported file type for the built-in reader - supported: JPEG, PNG, WebP, HEIC, "
+            out.put("metadata", "Unsupported file type for the built-in reader. Supported: JPEG, PNG, WebP, HEIC, "
                     + "TIFF, RAW, GIF, BMP, MP4/MOV. Install ExifTool for video, PDF and Office files.");
             return;
         }

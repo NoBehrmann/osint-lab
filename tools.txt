@@ -1,8 +1,9 @@
-OSINT LAB - CANDIDATE TOOLS
-===========================
+OSINT LAB: CANDIDATE TOOLS
+==========================
 Legend:  [N] native Java (built into the app)    [P] Python CLI (run via venv)
          [G] Go / standalone binary              [W] web service / link-out
          [K] needs API key or account session
+         << BUILT  part of the app
 
 -------------------------------------------------------------------------------
 1. DOMAIN & DNS
@@ -66,7 +67,7 @@ Legend:  [N] native Java (built into the app)    [P] Python CLI (run via venv)
        https://github.com/qeeqbox/social-analyzer
 [P][K] Toutatis             Instagram account info (needs own sessionid)
        https://pypi.org/project/toutatis/
-[P][K] SoIG                 Instagram OSINT (unmaintained - verify first)
+[P][K] SoIG                 Instagram OSINT (unmaintained, verify first)
        https://github.com/yezz123/SoIG
 [P][K] Osintgram            Instagram analysis shell
        https://github.com/Datalux/Osintgram
@@ -130,7 +131,7 @@ Legend:  [N] native Java (built into the app)    [P] Python CLI (run via venv)
 -------------------------------------------------------------------------------
 10. CRYPTO / BLOCKCHAIN
 -------------------------------------------------------------------------------
-[W]    Blockchain explorers (BTC, ETH) - address & transaction lookup
+[W]    Blockchain explorers (BTC, ETH): address & transaction lookup
 [W][K] Etherscan API
 
 -------------------------------------------------------------------------------
@@ -140,11 +141,10 @@ Legend:  [N] native Java (built into the app)    [P] Python CLI (run via venv)
        https://github.com/smicallef/spiderfoot
 [P]    recon-ng             Modular recon framework
        https://github.com/lanmaster53/recon-ng
-[W]    OSINT Framework      Curated link directory - https://osintframework.com
+[W]    OSINT Framework      Curated link directory, https://osintframework.com
 
 -------------------------------------------------------------------------------
-12. NEW CANDIDATES - researched and live-tested Oct 2026 (all free; [K] = key)
-    "<< BUILT" = now part of the app
+12. MORE CANDIDATES (researched and tested Oct 2026, all free unless marked [K])
 -------------------------------------------------------------------------------
 IP & NETWORK
 [W]    Shodan InternetDB    Open ports, CPEs, CVEs per IP from Shodan's own scans   << BUILT
@@ -152,13 +152,13 @@ IP & NETWORK
 [W]    RIPEstat Data API    ASN/prefix, abuse contact, RPKI, routing history   << BUILT
        stat.ripe.net/data/<call>/data.json                         keyless
 [N]    DNSBL + Team Cymru   Blacklist status & IP->ASN via plain DNS queries   << BUILT
-                            (Spamhaus refuses public resolvers - use system DNS)
+                            (Spamhaus refuses public resolvers, use system DNS)
 [W]    Passive DNS          DNS history: api.mnemonic.no/pdns/v3, Robtex
                             freeapi (low anonymous quotas)
-[W]    urlscan.io search    Historical public scans by domain:/ip: - keyless
+[W]    urlscan.io search    Historical public scans by domain:/ip:, keyless
                             for search (submitting scans needs a key)
 [W]    Threat feeds         URLhaus + ThreatFox bulk exports, OpenPhish, Tor exit
-                            list - download, cache, match locally (keyless)
+                            list. Download, cache, match locally (keyless)
 [W]    More subdomains      subdomain.center, anubisdb.com, HackerTarget
                             hostsearch/reverseiplookup (~50/day)
 [P]    checkdmarc           SPF/DMARC/BIMI/MTA-STS/DNSSEC with warnings
@@ -174,7 +174,7 @@ PEOPLE & ACCOUNTS
                             commit search. GitHub keyless = 60 req/h ([K] token
                             optional). Filter spoofed commit emails.
 [W]    Breach exposure      XposedOrNot (email/domain -> breach names, risk) +   << BUILT
-                            LeakCheck public API - breach NAMES only, keyless
+                            LeakCheck public API. Breach NAMES only, keyless
 [P]    user-scanner         Maintained Holehe successor: ~210 email modules,
                             ~2500 username sites, profile metadata, JSON
        https://github.com/kaifcodec/user-scanner
@@ -188,10 +188,10 @@ PEOPLE & ACCOUNTS
 [W]    Community profiles   HN, Lichess, Chess.com, Mastodon (WebFinger),   << BUILT
                             (built: all except TikTok, Twitch, Duolingo)
                             Telegram t.me, Steam ?xml=1, TikTok page, Twitch,
-                            Duolingo (also reverse email lookup - gray area)
-[W]    Gravatar v3          api.gravatar.com/v3/profiles - richer than current
+                            Duolingo (also reverse email lookup, gray area)
+[W]    Gravatar v3          api.gravatar.com/v3/profiles, richer than the current check
 GRAY AREA (opt-in only, think twice):
-[W]    Hudson Rock Cavalier Infostealer-log exposure - DROP top_passwords /
+[W]    Hudson Rock Cavalier Infostealer-log exposure. DROP top_passwords /
                             top_logins fields before display
 [P]    phonsint             Phone -> registered accounts via recovery flows;
                             never use --allow-loud
@@ -209,7 +209,7 @@ FILES, IMAGES & GEO
                             elevation, commons-suncalc (Java) sun position
 
 COMPANIES, MONEY & SANCTIONS
-[W]    GLEIF                LEI + Level 2 parent/child ownership - keyless   << BUILT
+[W]    GLEIF                LEI + Level 2 parent/child ownership, keyless   << BUILT
 [W]    SEC EDGAR            Filings + full-text search (UA must carry an email)   << BUILT
 [W]    EU VIES              VAT number -> registered name/address   << BUILT
 [W]    Wikidata             Entity cross-IDs (LEI, registry numbers, websites)
@@ -230,14 +230,14 @@ TRANSPORT
 
 STATUS CHANGES (Oct 2026)
 - OpenCorporates  API now needs a token
-- Etherscan       needs a key - use Blockscout instead
+- Etherscan       needs a key, use Blockscout instead
 - Blockchair      blacklists keyless callers
 - OTX             passive_dns needs a key; general + url_list still keyless
 - GreyNoise       community endpoint keyless (low quota)
-- abuse.ch APIs   need a free Auth-Key - bulk feeds still keyless
-- BGPView, ThreatMiner, PhishTank feed, columbus.elmasy - dead
+- abuse.ch APIs   need a free Auth-Key, bulk feeds still keyless
+- BGPView, ThreatMiner, PhishTank feed, columbus.elmasy: dead
 - Reddit JSON     403 for anonymous clients
-- Holehe          last update Sep 2024 - see user-scanner
+- Holehe          last update Sep 2024, see user-scanner
 - Blackbird       moved to antoniaci/blackbird, quiet since Jul 2025
 - h8mail          stale since 2023, mostly paid backends
 - Mailcat         rejected: probes mailboxes over SMTP (not passive)

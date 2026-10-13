@@ -7,7 +7,7 @@ import java.util.Set;
  *
  * @param accepts   target types this tool can run against
  * @param defaultOn pre-checked when a matching target is entered
- * @param slow      takes long or is noisy - shown with a marker in the UI
+ * @param slow      takes long or is noisy, shown with a marker in the UI
  * @param ready     an {@link OsintTool} implementation exists
  */
 public record ToolInfo(String id, String name, String category, String description,

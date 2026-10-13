@@ -19,12 +19,12 @@ import java.util.Map;
 
 /**
  * PhoneInfoga (the real Go binary under ..\.tools\phoneinfoga): its keyless "googlesearch" scanner
- * builds a set of ready-to-run search-engine footprints for a number - grouped into social media,
- * disposable-number providers, reputation / "who called" sites and people-search sites - plus the
+ * builds a set of ready-to-run search-engine footprints for a number, grouped into social media,
+ * disposable-number providers, reputation / "who called" sites and people-search sites, plus the
  * "local" libphonenumber facts. The scanners that need API keys (numverify, Google CSE) self-skip.
  *
  * <p>The googlesearch scanner only <em>generates</em> query URLs; it does not query anything, so this
- * tool is offline and fast. The links are starting points - open them to look for the number.
+ * tool is offline and fast. The links are starting points: open them to look for the number.
  */
 @Component
 public class PhoneInfogaTool implements OsintTool {
@@ -47,18 +47,18 @@ public class PhoneInfogaTool implements OsintTool {
 
     @Override
     public Duration cacheTtl() {
-        return Duration.ofDays(7); // deterministic URL generation - only changes with the binary
+        return Duration.ofDays(7); // deterministic URL generation, only changes with the binary
     }
 
     @Override
     public Object run(String target) throws Exception {
         String input = Inputs.phone(target);
         if (!Files.isRegularFile(binary)) {
-            throw new ToolUnavailableException("PhoneInfoga is not installed - expected the binary at " + binary);
+            throw new ToolUnavailableException("PhoneInfoga is not installed, expected the binary at " + binary);
         }
-        // PhoneInfoga only understands international numbers - a national "0151..." is converted first.
+        // PhoneInfoga only understands international numbers, so a national "0151..." is converted first.
         String phone = numbers.e164(input).orElseThrow(() -> new IllegalArgumentException("Could not read "
-                + input + " as a " + numbers.defaultRegion() + " number - enter it with its country code, "
+                + input + " as a " + numbers.defaultRegion() + " number. Enter it with its country code, "
                 + "e.g. +4915112345678"));
 
         List<String> command = List.of(binary.toString(), "scan", "-n", phone);
@@ -108,7 +108,7 @@ public class PhoneInfogaTool implements OsintTool {
         out.put("footprints", footprints);
         if (!local.isEmpty()) out.put("local", local);
         out.put("scanners", scanners);
-        out.put("note", "Footprints are ready-made search queries, not confirmed hits - open each to look for the "
+        out.put("note", "Footprints are ready-made search queries, not confirmed hits. Open each to look for the "
                 + "number. Scanners needing API keys (numverify, Google CSE) are skipped.");
         return out;
     }

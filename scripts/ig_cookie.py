@@ -13,7 +13,7 @@ def main():
     try:
         import browser_cookie3 as bc3
     except ImportError:
-        print(json.dumps({"error": "browser_cookie3 is not installed - run setup-python-tools.cmd"}))
+        print(json.dumps({"error": "browser_cookie3 is not installed, run setup-python-tools.cmd"}))
         return
 
     # Firefox first: its cookie store is not encrypted, so it is the most reliable.

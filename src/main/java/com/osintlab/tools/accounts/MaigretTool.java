@@ -87,7 +87,7 @@ public class MaigretTool implements OsintTool {
         out.put("sitesChecked", "top 500");
         out.put("found", accounts.size());
         out.put("accounts", accounts);
-        out.put("note", "Matches can include false positives - open the link to confirm.");
+        out.put("note", "Matches can include false positives, open the link to confirm.");
         return out;
     }
 }

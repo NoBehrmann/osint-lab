@@ -60,7 +60,7 @@ public class HarvesterTool implements OsintTool {
             if (!Files.exists(report)) throw new UpstreamException("theHarvester produced no report: " + r.tail());
             JsonNode n = mapper.readTree(report.toFile());
 
-            // hosts come as "name" or "name:ip" - group IPs per host
+            // hosts come as "name" or "name:ip", group IPs per host
             Map<String, String> hosts = new TreeMap<>();
             for (JsonNode h : n.path("hosts")) {
                 String[] parts = h.asText().split(":", 2);

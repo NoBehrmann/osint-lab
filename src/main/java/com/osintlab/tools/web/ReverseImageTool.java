@@ -15,7 +15,7 @@ import java.util.Map;
 
 /**
  * Reverse image search. For a public image URL it builds direct "search by this URL" links. For an
- * uploaded file it links to each engine's upload page instead - no free reverse-image API returns
+ * uploaded file it links to each engine's upload page instead. No free reverse-image API returns
  * match data, so the actual lookup is one drag-and-drop away. Makes no requests itself.
  */
 @Component
@@ -54,8 +54,8 @@ public class ReverseImageTool implements FileTool {
         Map<String, Object> out = new LinkedHashMap<>();
         out.put("file", file.name());
         out.put("searches", links);
-        out.put("note", "No free reverse-image API returns match data, so the uploaded file is not sent anywhere - "
-                + "open an engine and drop the image in. Yandex is usually best for faces and places.");
+        out.put("note", "No free reverse-image API returns match data, so the uploaded file is not sent anywhere. "
+                + "Open an engine and drop the image in. Yandex is usually best for faces and places.");
         return out;
     }
 

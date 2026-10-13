@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 /**
  * Runs external tools (e.g. Python CLIs) safely:
  * <ul>
- *   <li>no shell - arguments are passed as a list, so they can't be interpreted as shell syntax,</li>
+ *   <li>no shell: arguments are passed as a list, so they can't be interpreted as shell syntax,</li>
  *   <li>each run gets its own scratch directory under the project's temp dir, deleted afterwards,</li>
  *   <li>a hard timeout that kills the whole process tree.</li>
  * </ul>
@@ -54,7 +54,7 @@ public class ProcessRunner {
         return run(command, Map.of(), timeout, handler);
     }
 
-    /** @param extraEnv extra environment variables - use these for secrets instead of arguments */
+    /** @param extraEnv extra environment variables. Use these for secrets instead of arguments */
     public <T> T run(List<String> command, Map<String, String> extraEnv, Duration timeout, Handler<T> handler)
             throws Exception {
         Files.createDirectories(runsDir);
@@ -106,7 +106,7 @@ public class ProcessRunner {
         try (Stream<Path> paths = Files.walk(dir)) {
             paths.sorted(Comparator.reverseOrder()).forEach(p -> p.toFile().delete());
         } catch (IOException ignored) {
-            // best effort - leftover scratch dirs are harmless
+            // best effort, leftover scratch dirs are harmless
         }
     }
 }

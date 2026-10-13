@@ -31,7 +31,7 @@ public class ToolRegistry {
             tool("wayback", "Wayback Machine", "Web", "Snapshot timeline and archived URLs", ON, FAST, DOMAIN, URL),
 
             tool("ip", "IP Intelligence", "Network", "Geolocation, ISP, ASN, reputation links", ON, FAST, IP, DOMAIN),
-            tool("internetdb", "Exposed Services (Shodan)", "Network", "Open ports, software and known CVEs from Shodan's own scans - nothing sent to the target", ON, FAST, IP, DOMAIN),
+            tool("internetdb", "Exposed Services (Shodan)", "Network", "Open ports, software and known CVEs from Shodan's own scans, nothing sent to the target", ON, FAST, IP, DOMAIN),
             tool("network", "Network & Blacklists", "Network", "ASN owner, abuse contact, route validity (RIPEstat) and spam blacklists (DNSBL)", ON, FAST, IP, DOMAIN),
 
             tool("holehe", "Holehe", "Accounts", "Which of ~120 sites (Instagram, X, Spotify...) an email is registered on", ON, SLOW, EMAIL),
@@ -48,10 +48,10 @@ public class ToolRegistry {
             tool("phone", "Phone Lookup", "Email & Phone", "Validity, country, region, line type, original carrier", ON, FAST, PHONE),
             tool("phoneinfoga", "PhoneInfoga", "Email & Phone", "Search-engine footprints: social, reputation, disposable-number and people-search sites", ON, FAST, PHONE),
 
-            tool("registry", "Company Registries", "Organisations", "GLEIF (LEI, ownership tree), SEC EDGAR filings, EU VAT check - name, LEI or VAT number", ON, FAST, COMPANY),
+            tool("registry", "Company Registries", "Organisations", "GLEIF (LEI, ownership tree), SEC EDGAR filings, EU VAT check. Search by name, LEI or VAT number", ON, FAST, COMPANY),
             tool("crosslinked", "Employees (CrossLinked)", "Organisations", "LinkedIn employees via CrossLinked + DuckDuckGo", ON, SLOW, COMPANY),
 
-            tool("exif", "File Metadata", "Files", "GPS, device, dates, author, software, file hashes - photos, videos, PDF, Office (ExifTool)", ON, FAST, IMAGE, FILE),
+            tool("exif", "File Metadata", "Files", "GPS, device, dates, author, software, file hashes for photos, videos, PDF and Office (ExifTool)", ON, FAST, IMAGE, FILE),
             tool("geolocate", "Photo Geolocation", "Files", "Guesses where a photo was taken from its content (GeoCLIP), no GPS needed", OFF, SLOW, IMAGE),
 
             tool("dorks", "Dork Generator", "Search", "Search-engine dorks for the target", ON, FAST, DOMAIN, USERNAME, EMAIL, PHONE, COMPANY),

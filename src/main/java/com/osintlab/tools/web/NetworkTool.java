@@ -21,7 +21,7 @@ import java.util.concurrent.Callable;
  * <ul>
  *   <li>RIPEstat (keyless, all regions): ASN and its holder, announced prefix, responsible registry,
  *       abuse contact, RPKI route validity.</li>
- *   <li>DNS blacklists (DNSBL): plain DNS lookups of the reversed IP - nothing is sent to the target.
+ *   <li>DNS blacklists (DNSBL): plain DNS lookups of the reversed IP, nothing is sent to the target.
  *       For a domain, Spamhaus's domain blocklist (DBL) is checked too.</li>
  * </ul>
  * Spamhaus refuses queries relayed through big public resolvers (8.8.8.8, 1.1.1.1, 9.9.9.9); this
@@ -75,9 +75,9 @@ public class NetworkTool implements OsintTool {
             out.put("resolvedFrom", domain);
         }
         if (ip != null && !Inputs.isPublicIp(ip)) {
-            throw new IllegalArgumentException(ip + " is a private or reserved address - there is no public network data for it");
+            throw new IllegalArgumentException(ip + " is a private or reserved address, there is no public network data for it");
         }
-        out.put("ip", ip == null ? "none - the domain has no address, so only the domain blocklist was checked" : ip);
+        out.put("ip", ip == null ? "none (the domain has no address), so only the domain blocklist was checked" : ip);
 
         String d = domain;
         Map<String, Callable<Object>> tasks = new LinkedHashMap<>();
@@ -89,7 +89,7 @@ public class NetworkTool implements OsintTool {
         Map<String, Object> r = Parallel.all(tasks);
         out.putAll(r);
 
-        out.put("note", "Blacklist checks are DNS lookups - nothing is sent to the target. Policy listings "
+        out.put("note", "Blacklist checks are DNS lookups, nothing is sent to the target. Policy listings "
                 + "(e.g. Spamhaus PBL for home internet ranges) are normal and not a sign of abuse.");
         return out;
     }
@@ -121,7 +121,7 @@ public class NetworkTool implements OsintTool {
             out.put("abuseContact", unavailable(r.get("abuse")));
         }
         if (r.get("rpki") instanceof JsonNode rpki) {
-            // "invalid" means the route announcement isn't authorised - a possible hijack or misconfiguration
+            // "invalid" means the route announcement isn't authorised: a possible hijack or misconfiguration
             out.put("routeValidity (RPKI)", rpki.path("status").asText());
         } else if (r.containsKey("rpki")) {
             out.put("routeValidity (RPKI)", unavailable(r.get("rpki")));
@@ -144,7 +144,7 @@ public class NetworkTool implements OsintTool {
     }
 
     private Object ipBlacklists(String ip) throws Exception {
-        if (ip.contains(":")) return "IPv6 - most DNS blacklists only cover IPv4";
+        if (ip.contains(":")) return "IPv6, most DNS blacklists only cover IPv4";
         String[] o = ip.split("\\.");
         String reversed = o[3] + "." + o[2] + "." + o[1] + "." + o[0];
 
@@ -177,7 +177,7 @@ public class NetworkTool implements OsintTool {
     private static String interpret(String list, List<String> codes) {
         if (codes.isEmpty()) return "not listed";
         if (codes.stream().anyMatch(c -> c.startsWith("127.255.255."))) {
-            return "query refused - your DNS goes through a public resolver this list blocks";
+            return "query refused: your DNS goes through a public resolver this list blocks";
         }
         if (!list.startsWith("Spamhaus")) return "LISTED (" + String.join(", ", codes) + ")";
         List<String> parts = new ArrayList<>();
@@ -192,7 +192,7 @@ public class NetworkTool implements OsintTool {
             }
         }
         boolean policyOnly = codes.stream().allMatch(c -> c.equals("127.0.0.10") || c.equals("127.0.0.11"));
-        return (policyOnly ? "policy listing - " : "LISTED - ") + String.join("; ", parts);
+        return (policyOnly ? "policy listing: " : "LISTED: ") + String.join("; ", parts);
     }
 
     private Object domainBlacklist(String domain) throws Exception {
@@ -202,7 +202,7 @@ public class NetworkTool implements OsintTool {
         if (codes.isEmpty()) {
             out.put("result", "not listed");
         } else if (codes.stream().anyMatch(c -> c.startsWith("127.255.255."))) {
-            out.put("result", "query refused - your DNS goes through a public resolver Spamhaus blocks");
+            out.put("result", "query refused: your DNS goes through a public resolver Spamhaus blocks");
         } else {
             List<String> parts = new ArrayList<>();
             for (String c : codes) {
@@ -216,7 +216,7 @@ public class NetworkTool implements OsintTool {
                     default -> parts.add(c);
                 }
             }
-            out.put("result", "LISTED - " + String.join("; ", parts));
+            out.put("result", "LISTED: " + String.join("; ", parts));
         }
         return out;
     }

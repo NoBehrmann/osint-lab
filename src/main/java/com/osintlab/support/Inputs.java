@@ -50,7 +50,7 @@ public final class Inputs {
         if (IPV4.matcher(s).matches()) return true;
         if (s.contains(":") && IPV6_CHARS.matcher(s).matches()) {
             try {
-                InetAddress.getByName(s); // literal - no DNS lookup
+                InetAddress.getByName(s); // literal, so no DNS lookup
                 return true;
             } catch (Exception e) {
                 return false;
@@ -66,7 +66,7 @@ public final class Inputs {
     public static boolean isPublicIp(String ip) {
         if (!isIp(ip)) return false;
         try {
-            InetAddress a = InetAddress.getByName(ip.trim()); // literal - no DNS lookup
+            InetAddress a = InetAddress.getByName(ip.trim()); // literal, so no DNS lookup
             if (a.isAnyLocalAddress() || a.isLoopbackAddress() || a.isLinkLocalAddress()
                     || a.isSiteLocalAddress() || a.isMulticastAddress()) {
                 return false;

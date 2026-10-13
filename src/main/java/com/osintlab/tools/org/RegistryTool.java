@@ -23,10 +23,10 @@ import java.util.regex.Pattern;
 /**
  * Official company registries with free keyless APIs:
  * <ul>
- *   <li>GLEIF - the global Legal Entity Identifier (LEI) index: legal name, registry number, addresses,
+ *   <li>GLEIF, the global Legal Entity Identifier (LEI) index: legal name, registry number, addresses,
  *       status and the ownership tree (direct / ultimate parent, number of subsidiaries).</li>
- *   <li>SEC EDGAR - US filers: industry, state of incorporation, former names, latest filings.</li>
- *   <li>EU VIES - an EU VAT number's validity and registered name/address.</li>
+ *   <li>SEC EDGAR, US filers: industry, state of incorporation, former names, latest filings.</li>
+ *   <li>EU VIES: an EU VAT number's validity and registered name/address.</li>
  * </ul>
  * Accepts a company name, an LEI (20 characters) or an EU VAT number such as IE6388047V.
  */
@@ -71,7 +71,7 @@ public class RegistryTool implements OsintTool {
                 out.put("GLEIF", details(rec.path("data")));
                 return out;
             }
-            out.put("GLEIF", "no LEI record " + compact + " - searching it as a name instead");
+            out.put("GLEIF", "no LEI record " + compact + ", searching it as a name instead");
         }
 
         var vat = VAT.matcher(compact);
@@ -89,7 +89,7 @@ public class RegistryTool implements OsintTool {
         tasks.put("SEC EDGAR (US filers)", () -> edgar(q));
         out.put("searchedName", q);
         out.putAll(Parallel.all(tasks));
-        out.put("note", "Detailed records are for the FIRST match - if it's the wrong company, search its exact "
+        out.put("note", "Detailed records are for the FIRST match. If it's the wrong company, search its exact "
                 + "legal name or its LEI.");
         return out;
     }
@@ -262,7 +262,7 @@ public class RegistryTool implements OsintTool {
         Map<String, Object> out = new LinkedHashMap<>();
         out.put("vatNumber", country + number);
         if (v == null) {
-            out.put("valid", "unknown - VIES didn't answer");
+            out.put("valid", "unknown, VIES didn't answer");
             return out;
         }
         boolean valid = v.path("isValid").asBoolean();

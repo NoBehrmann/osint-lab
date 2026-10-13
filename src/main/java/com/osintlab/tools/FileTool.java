@@ -4,7 +4,7 @@ import com.osintlab.support.UploadStore;
 
 /**
  * A tool that works on an uploaded file instead of a text target. The file is on disk
- * ({@link UploadStore.Upload#path()}) - tools stream it rather than loading it into memory, so large
+ * ({@link UploadStore.Upload#path()}). Tools stream it rather than loading it into memory, so large
  * videos are fine. The upload is shared by all tools of one investigation.
  */
 public interface FileTool extends OsintTool {

@@ -7,7 +7,7 @@
  * that type are listed as checkboxes (defaults pre-checked) -> Run fires every checked
  * tool in parallel and each result fills its own section of the report.
  *
- * All untrusted data is inserted via textContent - never innerHTML.
+ * All untrusted data is inserted via textContent, never innerHTML.
  */
 
 const TYPES = ['DOMAIN', 'IP', 'URL', 'EMAIL', 'USERNAME', 'PHONE', 'COMPANY'];
@@ -73,7 +73,7 @@ function saveHistory(entry) {
     const list = [entry, ...loadHistory().filter(h => !(h.target === entry.target && h.type === entry.type))].slice(0, 20);
     try {
         localStorage.setItem(HISTORY_KEY, JSON.stringify(list));
-    } catch { /* storage unavailable - ignore */ }
+    } catch { /* storage unavailable, ignore */ }
 }
 
 function clearHistory() {
@@ -145,7 +145,7 @@ function renderInvestigate(prefillTarget = '', prefillType = '') {
     function refresh() {
         const type = effectiveType();
         detected.textContent = type ? (typeSelect.value ? 'type: ' : 'detected: ') + type.toLowerCase() : '';
-        if (file) detected.textContent += ` (${formatSize(file.size)})` + (fileTooLarge() ? ' - too large, max 1 GB' : '');
+        if (file) detected.textContent += ` (${formatSize(file.size)})` + (fileTooLarge() ? ', too large (max 1 GB)' : '');
         if (type !== currentType) {
             currentType = type;
             checked.clear();
@@ -157,7 +157,7 @@ function renderInvestigate(prefillTarget = '', prefillType = '') {
     }
 
     // ---- Instagram session control (only when Instagram tools apply) ----
-    let igStatus = null; // {configured, source} - fetched once, cached in this view
+    let igStatus = null; // {configured, source}, fetched once, cached in this view
 
     function needsIgSession(type) {
         return tools.some(t => (t.id === 'instagram' || t.id === 'toutatis') && t.ready && t.accepts.includes(type));
@@ -196,7 +196,7 @@ function renderInvestigate(prefillTarget = '', prefillType = '') {
                             .forEach(t => checked.set(t.id, true));
                         renderChecklist(type);
                         runBtn.disabled = !running && ![...checked.values()].some(Boolean);
-                        renderIgControl('loaded from ' + r.source + ' - Instagram tools ticked');
+                        renderIgControl('loaded from ' + r.source + ', Instagram tools ticked');
                     } else {
                         renderIgControl(r.message || 'could not read a session from the browser');
                     }
@@ -357,7 +357,7 @@ function uploadFile(file, signal, onProgress) {
             if (xhr.status >= 200 && xhr.status < 300 && data.id) resolve(data);
             else reject(new Error(data.error || `Upload failed (HTTP ${xhr.status})`));
         };
-        xhr.onerror = () => reject(new Error('Upload failed - connection lost (file too large?)'));
+        xhr.onerror = () => reject(new Error('Upload failed, connection lost (file too large?)'));
         xhr.onabort = () => reject(new DOMException('Upload stopped', 'AbortError'));
         signal?.addEventListener('abort', () => xhr.abort());
         const form = new FormData();
@@ -470,7 +470,7 @@ function renderField(key, value) {
     if (!bulky || size === 0 && typeof value !== 'string') return renderValue(value);
     const label = typeof value === 'string' ? 'show' : `show ${size} ${Array.isArray(value) ? 'items' : 'fields'}`;
     const details = el('details', {class: 'field'}, el('summary', {}, label));
-    // render lazily - some of these are large
+    // render lazily, some of these are large
     details.addEventListener('toggle', () => {
         if (details.open && details.children.length === 1) {
             details.append(typeof value === 'string' ? el('pre', {}, value) : renderValue(value));

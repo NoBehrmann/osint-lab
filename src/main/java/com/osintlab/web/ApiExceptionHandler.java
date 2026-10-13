@@ -34,11 +34,11 @@ public class ApiExceptionHandler {
         return error(HttpStatus.PAYLOAD_TOO_LARGE, "File too large (max 1 GB)");
     }
 
-    /** Usually the user pressed Stop (or closed the tab) mid-upload - expected, not worth a stack trace. */
+    /** Usually the user pressed Stop (or closed the tab) mid-upload. Expected, not worth a stack trace. */
     @ExceptionHandler(MultipartException.class)
     public ResponseEntity<Map<String, String>> brokenUpload(MultipartException e) {
         log.debug("Upload interrupted", e);
-        return error(HttpStatus.BAD_REQUEST, "Upload interrupted - choose the file and run again");
+        return error(HttpStatus.BAD_REQUEST, "Upload interrupted, choose the file and run again");
     }
 
     @ExceptionHandler(ToolBusyException.class)

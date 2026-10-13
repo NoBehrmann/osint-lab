@@ -95,7 +95,7 @@ public class CodePlatformsTool implements OsintTool {
             else out.put(platform, r);
         });
         if (!notFound.isEmpty()) out.put("notFound", notFound);
-        out.put("note", "Commit emails are what the person configured in git - they may be old, work or no-reply "
+        out.put("note", "Commit emails are what the person configured in git. They may be old, work or no-reply "
                 + "addresses. The same SSH key fingerprint on two accounts means the same person or machine.");
         return out;
     }
@@ -159,7 +159,7 @@ public class CodePlatformsTool implements OsintTool {
         }
         Map<String, Map<String, Object>> byEmail = new LinkedHashMap<>();
         for (Object result : Parallel.all(tasks).values()) {
-            if (!(result instanceof JsonNode commits)) continue; // empty repo (409) or error - skip
+            if (!(result instanceof JsonNode commits)) continue; // empty repo (409) or error: skip
             for (JsonNode c : commits) {
                 JsonNode a = c.path("commit").path("author");
                 String email = a.path("email").asText("").toLowerCase(Locale.ROOT);
@@ -214,7 +214,7 @@ public class CodePlatformsTool implements OsintTool {
                     byte[] blob = Base64.getDecoder().decode(parts[1]);
                     row.put("fingerprint", "SHA256:" + Base64.getEncoder().withoutPadding().encodeToString(sha256.digest(blob)));
                 } catch (IllegalArgumentException ignored) {
-                    // malformed key - leave the fingerprint out
+                    // malformed key, leave the fingerprint out
                 }
             }
             row.put("added", k.path("created_at").asText(""));
@@ -319,7 +319,7 @@ public class CodePlatformsTool implements OsintTool {
         Set<String> unlinkedNames = new LinkedHashSet<>();
         for (JsonNode item : r == null ? List.<JsonNode>of() : r.path("items")) {
             JsonNode a = item.path("commit").path("author");
-            // the search matches loosely - keep only commits that really used this address
+            // the search matches loosely, so keep only commits that really used this address
             if (!a.path("email").asText().equalsIgnoreCase(email)) continue;
             String date = isoInstant(a.path("date").asText(""));
             if (date.compareTo(tomorrow) > 0) {
@@ -367,7 +367,7 @@ public class CodePlatformsTool implements OsintTool {
                 : "GitHub links a commit to an account only if the email is verified on that account, so the ACCOUNT "
                 + "is a strong match. But anyone can put any email in their own commits, so the names and repos "
                 + "seen in individual commits may be someone else's. Based on up to 50 matching commits.");
-        out.put("gitlabCodeberg", "can't be searched by email without an account - try the username instead");
+        out.put("gitlabCodeberg", "can't be searched by email without an account, try the username instead");
         return out;
     }
 
@@ -378,7 +378,7 @@ public class CodePlatformsTool implements OsintTool {
             return http.getJsonOrNull(GH + path, TIMEOUT, githubHeaders, Set.of(404));
         } catch (UpstreamException e) {
             if (e.getMessage().contains("rate limit") && !githubHeaders.containsKey("Authorization")) {
-                throw new UpstreamException("GitHub rate limit reached (60 requests/hour without a token) - wait, or add "
+                throw new UpstreamException("GitHub rate limit reached (60 requests/hour without a token). Wait, or add "
                         + "a free token as osintlab.github.token in secrets.properties");
             }
             throw e;

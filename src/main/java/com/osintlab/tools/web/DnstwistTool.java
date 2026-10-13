@@ -17,7 +17,7 @@ import java.util.Map;
 
 /**
  * dnstwist (https://github.com/elceef/dnstwist): generates typo/homoglyph/bitsquatting variants
- * of a domain and reports the ones that are registered - typical phishing infrastructure.
+ * of a domain and reports the ones that are registered (typical phishing infrastructure).
  */
 @Component
 public class DnstwistTool implements OsintTool {
@@ -71,7 +71,7 @@ public class DnstwistTool implements OsintTool {
             out.put("domain", domain);
             out.put("registeredLookalikes", rows.size());
             out.put("lookalikes", rows);
-            out.put("note", "Registered does not mean malicious - check entries with MX records or recent "
+            out.put("note", "Registered does not mean malicious. Check entries with MX records or recent "
                     + "registration first.");
             return out;
         });

@@ -60,7 +60,7 @@ public class SubdomainTool implements OsintTool {
         try {
             certs = fromCrtSh(domain);
         } catch (UpstreamException e) {
-            // crt.sh is frequently overloaded (502/503) - CertSpotter has the same CT data
+            // crt.sh is frequently overloaded (502/503), CertSpotter has the same CT data
             source = "CertSpotter (crt.sh unavailable: " + e.getMessage() + ")";
             certs = fromCertSpotter(domain);
         }
@@ -111,7 +111,7 @@ public class SubdomainTool implements OsintTool {
     private record Cert(List<String> names, String notBefore) {
     }
 
-    /** crt.sh, with one retry - it often answers 502 under load. */
+    /** crt.sh, with one retry, it often answers 502 under load. */
     private List<Cert> fromCrtSh(String domain) throws Exception {
         String url = "https://crt.sh/?q=" + URLEncoder.encode("%." + domain, StandardCharsets.UTF_8) + "&output=json";
         JsonNode json;

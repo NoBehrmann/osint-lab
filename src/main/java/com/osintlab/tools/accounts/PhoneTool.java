@@ -35,7 +35,7 @@ public class PhoneTool implements OsintTool {
 
     @Override
     public Duration cacheTtl() {
-        return Duration.ofDays(7); // offline data - only changes with library updates
+        return Duration.ofDays(7); // offline data, only changes with library updates
     }
 
     @Override
@@ -44,7 +44,7 @@ public class PhoneTool implements OsintTool {
         JsonNode result = python.runScript("phone.py", List.of("--", phone, defaultRegion), Map.of(), Duration.ofSeconds(30));
         if (result instanceof ObjectNode node) {
             if (!phone.startsWith("+")) node.put("assumedRegion", defaultRegion);
-            node.put("note", "Carrier is the original network operator - the number may have been ported since.");
+            node.put("note", "Carrier is the original network operator. The number may have been ported since.");
         }
         return result;
     }

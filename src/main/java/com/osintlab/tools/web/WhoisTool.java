@@ -53,7 +53,7 @@ public class WhoisTool implements OsintTool {
         try {
             n = http.getJson("https://rdap.org/" + path, Duration.ofSeconds(20), "application/rdap+json", 5_000_000);
         } catch (UpstreamException e) {
-            // Several ccTLDs (.eu, .de, ...) have no RDAP service - fall back to classic WHOIS
+            // Several ccTLDs (.eu, .de, ...) have no RDAP service, so fall back to classic WHOIS
             if (domain == null) throw e;
             return classicWhois(domain);
         }

@@ -60,7 +60,7 @@ public class ToolExecutor {
         return new Result(value, null);
     }
 
-    /** Runs a file tool on an upload. Not cached - uploads are processed and forgotten. */
+    /** Runs a file tool on an upload. Not cached: uploads are processed and forgotten. */
     public Object runFile(String toolId, UploadStore.Upload file) throws Exception {
         if (!(registry.get(toolId) instanceof FileTool tool)) {
             throw new IllegalArgumentException(toolId + " does not accept file uploads");
@@ -75,9 +75,9 @@ public class ToolExecutor {
 
     private Object limited(OsintTool tool, Work work) throws Exception {
         Semaphore toolSlots = perTool.computeIfAbsent(tool.id(), id -> new Semaphore(tool.maxConcurrent(), true));
-        acquire(global, "Server busy - too many tools running, try again shortly");
+        acquire(global, "Server busy, too many tools running. Try again shortly");
         try {
-            acquire(toolSlots, tool.id() + " is busy - try again shortly");
+            acquire(toolSlots, tool.id() + " is busy, try again shortly");
             try {
                 return work.call();
             } finally {

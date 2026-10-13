@@ -106,7 +106,7 @@ public class SherlockTool implements OsintTool {
         out.put("accounts", found);
         out.put("summary", summary);
         out.put("inconclusive", inconclusive);
-        out.put("note", "Matches are based on HTTP responses and can include false positives - open the link to confirm.");
+        out.put("note", "Matches are based on HTTP responses and can include false positives, open the link to confirm.");
         return out;
     }
 }

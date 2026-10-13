@@ -20,7 +20,7 @@ import java.util.stream.Stream;
  * Holds uploaded files on disk so several tools can analyse the same upload without the browser
  * sending it once per tool, and without ever loading it into memory (a 500 MB video stays a file).
  * <ul>
- *   <li>Each upload lives in {@code <temp-dir>/uploads/<random id>/upload.<ext>} - the user's file
+ *   <li>Each upload lives in {@code <temp-dir>/uploads/<random id>/upload.<ext>}. The user's file
  *       name is only kept for display, never used in a path or a command line.</li>
  *   <li>Uploads are deleted after {@code osintlab.uploads.keep-minutes}; the oldest are deleted early
  *       when all uploads together exceed {@code osintlab.uploads.max-total-mb}.</li>
@@ -48,7 +48,7 @@ public class UploadStore {
         Files.createDirectories(dir);
     }
 
-    /** Streams the upload to disk (Tomcat has already spooled it to a temp file - no copy in memory). */
+    /** Streams the upload to disk (Tomcat has already spooled it to a temp file, so there is no copy in memory). */
     public synchronized Upload save(MultipartFile file) throws IOException {
         expire();
         String id = UUID.randomUUID().toString();
@@ -70,7 +70,7 @@ public class UploadStore {
         expire();
         Upload u = id == null ? null : uploads.get(id);
         if (u == null || !Files.isRegularFile(u.path())) {
-            throw new IllegalArgumentException("Upload not found or expired - choose the file again and re-run");
+            throw new IllegalArgumentException("Upload not found or expired, choose the file again and re-run");
         }
         return u;
     }
@@ -96,7 +96,7 @@ public class UploadStore {
         }
     }
 
-    /** ".jpg", ".mp4"... - only short alphanumeric extensions survive; tools like ExifTool use it as a hint. */
+    /** ".jpg", ".mp4"... Only short alphanumeric extensions are kept. Tools like ExifTool use it as a hint. */
     private static String extension(String name) {
         if (name == null) return ".bin";
         String n = name.toLowerCase(Locale.ROOT);
@@ -117,7 +117,7 @@ public class UploadStore {
         try (Stream<Path> paths = Files.walk(path)) {
             paths.sorted(Comparator.reverseOrder()).forEach(p -> p.toFile().delete());
         } catch (IOException ignored) {
-            // best effort - expired uploads are retried on the next cleanup
+            // best effort, expired uploads are retried on the next cleanup
         }
     }
 }

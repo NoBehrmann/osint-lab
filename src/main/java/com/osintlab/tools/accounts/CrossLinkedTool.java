@@ -26,14 +26,14 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Employees of a company via search engines indexing LinkedIn profiles - no LinkedIn login needed.
+ * Employees of a company via search engines indexing LinkedIn profiles. No LinkedIn login needed.
  * Runs CrossLinked (https://github.com/m8sec/CrossLinked, Google + Bing) and adds results from
  * DuckDuckGo, since Google/Bing often block or change their result pages.
  */
 @Component
 public class CrossLinkedTool implements OsintTool {
 
-    /** Query variants - DuckDuckGo's HTML endpoint returns ~10 results per query without pagination. */
+    /** Query variants. DuckDuckGo's HTML endpoint returns ~10 results per query without pagination. */
     private static final List<String> VARIANTS = List.of("", "engineer", "manager", "sales", "marketing",
             "developer", "consultant", "CEO OR founder OR director", "HR OR recruiter", "student OR intern");
     private static final Pattern RESULT = Pattern.compile(
@@ -93,7 +93,7 @@ public class CrossLinkedTool implements OsintTool {
         out.put("people", list);
         out.put("note", list.isEmpty()
                 ? "No results. " + (blocked.isEmpty() ? "" : "Search engines are blocking automated queries from "
-                + "this IP right now (see blockedBy) - try again in an hour or two. ")
+                + "this IP right now (see blockedBy), try again in an hour or two. ")
                 + "Search-engine based, so small companies often have few indexed profiles."
                 : "From search-engine snippets of LinkedIn profiles: may include former employees or similarly "
                 + "named companies. 'mentionsCompany' = the snippet names the company.");
@@ -139,7 +139,7 @@ public class CrossLinkedTool implements OsintTool {
                     String title = dash > 0 ? text.substring(dash + 3).replaceAll("\\s*\\|\\s*LinkedIn\\s*$", "") : "";
                     if (add(people, m.group(1), name, title, "DuckDuckGo")) added++;
                 }
-                if (variant.isEmpty() && added == before) break; // nothing for the base query - variants won't help
+                if (variant.isEmpty() && added == before) break; // nothing for the base query, so variants won't help
                 Thread.sleep(1200); // be polite
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();

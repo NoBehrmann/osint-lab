@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
- * Instagram profile and recent posts (captions, locations, hashtags) - the data SoIG used to
+ * Instagram profile and recent posts (captions, locations, hashtags), the data SoIG used to
  * collect. SoIG itself scraped page markup Instagram removed in 2022, so this uses the web
  * profile API instead, authenticated with the configured sessionid.
  */
@@ -68,14 +68,14 @@ public class InstagramProfileTool implements OsintTool {
                 .GET().build();
         HttpResponse<String> resp = client.send(req, HttpResponse.BodyHandlers.ofString());
         if (resp.statusCode() == 404) throw new UpstreamException("No Instagram account named " + username);
-        if (resp.statusCode() == 429) throw new UpstreamException("Instagram is rate-limiting - wait a few minutes");
+        if (resp.statusCode() == 429) throw new UpstreamException("Instagram is rate-limiting, wait a few minutes");
         if (resp.statusCode() >= 400) throw new UpstreamException("Instagram returned HTTP " + resp.statusCode());
 
         JsonNode user;
         try {
             user = mapper.readTree(resp.body()).path("data").path("user");
         } catch (Exception e) {
-            throw new UpstreamException("Instagram returned an unexpected page - the sessionid may be expired");
+            throw new UpstreamException("Instagram returned an unexpected page, the sessionid may be expired");
         }
         if (user.isMissingNode() || user.isNull()) throw new UpstreamException("No Instagram account named " + username);
 
